@@ -59,10 +59,12 @@ internal sealed class ConsoleHostedService : IHostedService
             new MongoInternalIdentity(mongoUrl.DatabaseName, mongoUrl.Username), new PasswordEvidence(mongoUrl.Password));
         
         var mongoClient = new MongoClient(settings);
-        var db = mongoClient.GetDatabase(mongoUrl.DatabaseName);
+        var db = mongoClient.GetDatabase("fargateDemoDb");
 
-        var allUsers = await (await db.GetCollection<User>("users")
-            .FindAsync(x => true, cancellationToken: cancellationToken)).ToListAsync(cancellationToken);
+        var collection = db.GetCollection<User>("users");
+
+        var allUsers = await (await collection.FindAsync(x => true, 
+            cancellationToken: cancellationToken)).ToListAsync(cancellationToken);
 
         var userNames = string.Join(",", allUsers.Select(x => x.Name));
         _logger.Information("Users: {UserNames}", userNames);

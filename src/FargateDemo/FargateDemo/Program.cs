@@ -6,6 +6,8 @@ using Serilog;
 
 var environmentName = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT");
 
+BsonConfig.RegisterConventionPacks();
+
 await Host.CreateDefaultBuilder()
     .UseEnvironment(environmentName)
     .ConfigureAppConfiguration((_, builder) =>
