@@ -54,11 +54,9 @@ internal sealed class ConsoleHostedService : IHostedService
 
         var settings = MongoClientSettings.FromUrl(mongoUrl);
 
-        string GetEnvVar(string name) => Environment.GetEnvironmentVariable(name);
-        
         settings.Credential = new MongoCredential(mongoUrl.AuthenticationMechanism, 
-            new MongoInternalIdentity(mongoUrl.DatabaseName, GetEnvVar("MONGO_USERNAME")), 
-            new PasswordEvidence(GetEnvVar("MONGO_PASSWORD")));
+            new MongoInternalIdentity(mongoUrl.DatabaseName, Environment.GetEnvironmentVariable("MONGO_USERNAME")), 
+            new PasswordEvidence(Environment.GetEnvironmentVariable("MONGO_PASSWORD")));
         
         var mongoClient = new MongoClient(settings);
         var db = mongoClient.GetDatabase("fargateDemoDb");
