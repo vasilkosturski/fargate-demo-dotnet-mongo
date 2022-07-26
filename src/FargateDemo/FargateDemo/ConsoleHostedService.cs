@@ -66,8 +66,8 @@ internal sealed class ConsoleHostedService : IHostedService
         var allUsers = await (await collection.FindAsync(x => true, 
             cancellationToken: cancellationToken)).ToListAsync(cancellationToken);
 
-        var userNames = string.Join(",", allUsers.Select(x => x.Name));
-        _logger.Information("Users: {UserNames}", userNames);
+        var usernames = string.Join(",", allUsers.Select(x => x.Name));
+        _logger.Information("Users: {Usernames}", usernames);
     }
 
     public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
